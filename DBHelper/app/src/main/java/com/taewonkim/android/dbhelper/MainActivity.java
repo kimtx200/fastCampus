@@ -1,8 +1,10 @@
 package com.taewonkim.android.dbhelper;
 
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -13,6 +15,11 @@ public class MainActivity extends AppCompatActivity {
 
         SQLiteDatabase db = DBHelper.openDatabase(this);
 
+        Log.i("database","Path = "+db);
+
+        Cursor cursor = db.rawQuery("select * from bbs4",null);
+
+        cursor.close();
         db.close();
 
     }

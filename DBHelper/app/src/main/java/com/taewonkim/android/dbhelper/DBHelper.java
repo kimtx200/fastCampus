@@ -28,7 +28,9 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
+        String scheme = "create table bbs4 (no integer primary key autoincrement not null"
+                        + " ,title text default null)";
+        db.execSQL(scheme);
     }
 
     @Override
