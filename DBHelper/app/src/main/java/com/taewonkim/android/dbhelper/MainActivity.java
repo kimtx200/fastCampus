@@ -19,6 +19,10 @@ public class MainActivity extends AppCompatActivity {
 
         Cursor cursor = db.rawQuery("select * from bbs4",null);
 
+        while(cursor.moveToNext()){
+            // 가져 온 select 구문에서 첫번째 속성 값을들 가져온다.
+            Log.i("data check","title"+cursor.getString(1));
+        }
         cursor.close();
         db.close();
 
