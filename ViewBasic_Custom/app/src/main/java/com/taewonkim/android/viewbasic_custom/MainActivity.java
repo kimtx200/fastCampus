@@ -15,16 +15,21 @@ import android.widget.FrameLayout;
 public class MainActivity extends AppCompatActivity {
 
     CustomView customView;
+    FrameLayout ground;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // custom view, Frame Layout 을 생성
         customView = new CustomView(this);
-        FrameLayout ground = (FrameLayout) findViewById(R.id.ground);
+        ground = (FrameLayout) findViewById(R.id.ground);
 
+        // frame layout 에 custom view 삽입
         ground.addView(customView);
 
+        // Clear Button 구현 및 클릭 이벤트 구현
         Button clear = (Button) findViewById(R.id.btnClear);
         clear.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -33,14 +38,28 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // animate Button 구현 및 클릭 이벤트 구현
+        Button animate = (Button) findViewById(R.id.btnAnimate);
+        animate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CustomThread customThread = new CustomThread(customView);
+                customThread.start();
+            }
+        });
+
     }
 }
 
 class CustomView extends View {
 
-    int x = -1;
-    int y = -1;
-    int rad = 100;
+    // 사각형의 초기 값
+    private final static int WIDTH = 100;
+    private final static int HEIGHT = 100;
+
+    // 사각형의 변동 값(이동 값)
+    private int x = 0;
+    private int y = 0;
 
     Paint paint = new Paint();
     Path path = new Path();
@@ -49,13 +68,13 @@ class CustomView extends View {
         super(context);
 
         paint.setColor(Color.MAGENTA);
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(10f);
+//        paint.setStyle(Paint.Style.STROKE);
+//        paint.setStrokeWidth(10f);
 
     }
 
     // Path 를 초기화 하는 메소드
-    public void reset(){
+    public void reset() {
         path = new Path();
         invalidate();
     }
@@ -77,36 +96,44 @@ class CustomView extends View {
 //        if (x >= 0 || y >= 0)
 //            canvas.drawCircle(x, y, rad, paint);
 
-        canvas.drawPath(path, paint);
+//        canvas.drawPath(path, paint);
+
+        canvas.drawRect(x, y, x + WIDTH, y + HEIGHT, paint);
+    }
+
+    public void moveRect(int offset) {
+        x = x + offset;
+        y = y + offset;
+    }
+}
+
+// 커스텀 뷰의 애니메이션을 Thread 로 구동 되게 하기 위한 클래스 선언
+class CustomThread extends Thread {
+
+    CustomView customView;
+    // 한번의 변화당 이동하는 거리 설정 = offset
+    private static final int OFFSET = 2;
+
+
+    public CustomThread(CustomView customView) {
+        this.customView = customView;
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event) {
+    public void run() {
+        int limit = 0;
+        while (limit < 1000) {
+            // customView 에 그려지는 사각형의 좌표값을 조작 한다.
+            customView.moveRect(OFFSET);
+            customView.postInvalidate();
+            limit = limit + 1;
 
-        x = (int)event.getX();
-        y = (int)event.getY();
-
-        switch (event.getAction()) {
-
-            // 눌렀다가 떼었을때 동작
-            case MotionEvent.ACTION_UP:
-                // 전역 변수에 클릭한 좌표를 전달
-
-                break;
-
-            case MotionEvent.ACTION_DOWN:
-
-                path.moveTo(x,y);
-                break;
-
-            case MotionEvent.ACTION_MOVE:
-
-                path.lineTo(x,y);
-                break;
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
 
-        // 새로운 Action 값이 들어왔을 때, draw를 새롭게 그려준다.
-        invalidate();
-        return true;
     }
 }

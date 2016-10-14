@@ -25,4 +25,13 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:id="@+id/ground"></FrameLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Animate"
+        android:id="@+id/btnAnimate"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/btnClear"
+        android:layout_toStartOf="@+id/btnClear" />
 </RelativeLayout>
