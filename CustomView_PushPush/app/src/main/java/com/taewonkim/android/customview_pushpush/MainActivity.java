@@ -32,6 +32,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private final static int GROUND_LIMIT = 10;
 
+    int[][] map = {
+            {3, 1, 0, 0, 0, 1, 1, 1, 1, 3},
+            {0, 1, 0, 1, 0, 0, 2, 0, 1, 0},
+            {0, 0, 0, 1, 1, 0, 0, 0, 1, 0},
+            {1, 1, 0, 0, 1, 0, 1, 0, 1, 0},
+            {0, 1, 0, 2, 1, 0, 1, 0, 0, 0},
+            {0, 1, 0, 0, 0, 0, 1, 1, 0, 0},
+            {0, 1, 1, 0, 0, 0, 0, 1, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+            {0, 0, 0, 1, 0, 2, 0, 0, 0, 0},
+            {3, 1, 1, 1, 0, 1, 1, 1, 0, 3},
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 화면의 사이즈를 가져오는 시스템 함수
         DisplayMetrics dm = getResources().getDisplayMetrics();
         groundUnit = dm.widthPixels;
+
         // 10X10 ground 생성을 위한 unit 값 설정
         unit = groundUnit / GROUND_LIMIT;
 
@@ -65,19 +78,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnUp:
-                player_y = player_y + checkCollision("y",-1);
+                player_y = player_y + checkCollision("y", -1);
                 break;
 
             case R.id.btnDown:
-                player_y = player_y + checkCollision("y",+1);
+                player_y = player_y + checkCollision("y", +1);
                 break;
 
             case R.id.btnLeft:
-                player_x = player_x + checkCollision("x",-1);
+                player_x = player_x + checkCollision("x", -1);
                 break;
 
             case R.id.btnRight:
-                player_x = player_x + checkCollision("x",+1);
+                player_x = player_x + checkCollision("x", +1);
                 break;
         }
         customView.invalidate();
@@ -86,11 +99,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     // 이동 대상(x | y) , 이동 값
     private int checkCollision(String direction, int nextValue) {
 
-        if (direction.equals('y')) {
+        // 외곽선 체크
+        if (direction.equals("y")) {
             if ((player_y + nextValue) < 0 || (player_y + nextValue) >= GROUND_LIMIT)
                 return 0;
-        } else if ((player_y + nextValue) < 0 || (player_y + nextValue) >= GROUND_LIMIT)
-            return 0;
+        }
+        else {
+            if ((player_x + nextValue) < 0 || (player_x + nextValue) >= GROUND_LIMIT)
+                return 0;
+        }
+
+        // 장애물 체크
+        if (direction.equals("y")) {
+            if (map[player_y + nextValue][player_x] == 1)
+                return 0;
+        }
+        else {
+            if (map[player_y][player_x + nextValue] == 1)
+                return 0;
+        }
+
         return nextValue;
     }
 
@@ -108,6 +136,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // ground 의 경계선 그리기
             paint.setColor(Color.GRAY);
             canvas.drawRect(0, 0, groundUnit, groundUnit, paint);
+
+            // ground 에 장애물 그리기
+            paint.setColor(Color.BLACK);
+            for (int i = 0; i < GROUND_LIMIT; i++) {
+                for (int j = 0; j < GROUND_LIMIT; j++) {
+                    if (map[i][j] == 1)
+                        canvas.drawRect(j * unit, i * unit, j * unit + unit, i * unit + unit, paint);
+                }
+            }
+
+            // ground 에 장애물 그리기
+            paint.setColor(Color.MAGENTA);
+            for (int i = 0; i < GROUND_LIMIT; i++) {
+                for (int j = 0; j < GROUND_LIMIT; j++) {
+                    if (map[i][j] == 2)
+                        canvas.drawRect(j * unit, i * unit, j * unit + unit, i * unit + unit, paint);
+                }
+            }
 
             // 움직일 사각형 그리기
             paint.setColor(Color.RED);
