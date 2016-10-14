@@ -9,14 +9,30 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
+import android.widget.FrameLayout;
 
 public class MainActivity extends AppCompatActivity {
 
+    CustomView customView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_main);
-        setContentView(new CustomView(this));
+        setContentView(R.layout.activity_main);
+
+        customView = new CustomView(this);
+        FrameLayout ground = (FrameLayout) findViewById(R.id.ground);
+
+        ground.addView(customView);
+
+        Button clear = (Button) findViewById(R.id.btnClear);
+        clear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                customView.reset();
+            }
+        });
+
     }
 }
 
@@ -36,6 +52,12 @@ class CustomView extends View {
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(10f);
 
+    }
+
+    // Path 를 초기화 하는 메소드
+    public void reset(){
+        path = new Path();
+        invalidate();
     }
 
     @Override
