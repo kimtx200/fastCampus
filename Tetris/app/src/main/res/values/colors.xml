@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <!-- background -->
+    <color name="background">#787878</color>
+    <color name="boarder">#020202</color>
+
+    <!-- Blocks -->
+    <color name="block1">#ff0000</color>
+    <color name="block2">#ff6600</color>
+    <color name="block3">#ffe100</color>
+    <color name="block4">#00ff08</color>
+    <color name="block5">#0022ff</color>
+    <color name="block6">#1c0c43</color>
+    <color name="block7">#d000ff</color>
+
+    <!-- Score Text -->
+    <color name="textTitle">#000000</color>
+    <color name="textContents">#020202</color>
+
+</resources>
