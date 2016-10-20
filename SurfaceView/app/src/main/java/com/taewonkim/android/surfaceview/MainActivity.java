@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         // 뷰가 화면에 보여지는 시점
         @Override
         public void surfaceCreated(SurfaceHolder holder) {
+            thread.running = true;
             thread.start();
         }
 
@@ -71,7 +72,18 @@ public class MainActivity extends AppCompatActivity {
         // 화면에서 뷰가 보이지 않는 시점점
         @Override
         public void surfaceDestroyed(SurfaceHolder holder) {
-            thread.interrupt();
+            boolean retry = true;
+            thread.running = false;
+
+            while (retry) {
+                // 서브스레드를 메인스레드와 함께 동기화 시켜준다.
+                try {
+                    thread.join();
+                    retry = false;
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
@@ -79,39 +91,53 @@ public class MainActivity extends AppCompatActivity {
     public class SurfaceThread extends Thread {
 
         private SurfaceHolder surfaceHolder;
-        Paint paint = new Paint();
+        public boolean running = true;
 
-        int x = 0; int y = 0;
+        Paint paint = new Paint();
+        int x = 0;
+        int y = 0;
 
         public SurfaceThread(SurfaceHolder surfaceHolder) {
             // surfaceView 에서 넘겨준 Holder 를 가지고 작업을 한다.
 
             this.surfaceHolder = surfaceHolder;
-            paint.setColor(Color.BLUE);
+
         }
 
         @Override
         public void run() {
             // 무한 반복 하면서 그림을 그려 준다.
-
             while (true) {
+                Canvas canvas = null;
+                try {
+                    // 1. canvas 를 가져온다.
+                    canvas = surfaceHolder.lockCanvas();
+                    synchronized (surfaceHolder) {
+                        // 2. canvas 을 이용해 사각형을 그려 준다.
+                        paint.setColor(Color.WHITE);
+                        canvas.drawRect(x - 1, y - 1, x + 50 - 1, y + 50 - 1, paint);
 
-                // 1. canvas 를 가져온다.
-                Canvas canvas = surfaceHolder.lockCanvas(null);
-                synchronized (surfaceHolder) {
-                    // 2. canvas 을 이용해 사각형을 그려 준다.
-                    canvas.drawRect(x, y, x+50, y+50, paint);
+                        paint.setColor(Color.BLUE);
+                        canvas.drawRect(x, y, x + 50, y + 50, paint);
+                    }
+
+                    x = x + 1;
+                    y = y + 1;
+
+                    if (x > deviceWidth) {
+                        x = 0;
+                        y = 0;
+                    }
+                    // 여기서 lock 을 풀어 주면서 실제 디스플레이에 그려주게 된다.
+
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-
-                x++;
-                y++;
-
-                if(x > deviceWidth){
-                    x=0;
-                    y=0;
+                // 에러가 나더라도 canvas 의 결과 값을 항상 보여 주도록 한다.
+                finally {
+                    if (canvas != null)
+                        surfaceHolder.unlockCanvasAndPost(canvas);
                 }
-                // 여기서 lock 을 풀어 주면서 실제 디스플레이에 그려주게 된다.
-                surfaceHolder.unlockCanvasAndPost(canvas);
             }
         }
     }
