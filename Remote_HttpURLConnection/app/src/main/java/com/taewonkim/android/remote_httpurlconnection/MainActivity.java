@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
                 String result ="";
 
                 try {
-                    result = Remote.getData("http://openAPI.seoul.go.kr:8088/776a614c616b696d383446746a4468/xml/VisitSeoulKr/1/5");
+                    result = Remote.getData("http://openAPI.seoul.go.kr:8088/776a614c616b696d383446746a4468/json/VisitSeoulKr/1/5");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
