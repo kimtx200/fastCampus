@@ -8,6 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 public class MainActivity extends AppCompatActivity {
 
     TextView tv;
@@ -63,11 +66,30 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            protected void onPostExecute(String s) {
+            protected void onPostExecute(String s){
                 super.onPostExecute(s);
 
-                tv.setText(s);
-                progress.dismiss();
+                StringBuffer sb = new StringBuffer();
+
+                try {
+                    JSONObject json = new JSONObject(s);
+                    JSONObject topObject = json.getJSONObject("VisitSeoulKr");
+                    JSONArray rows = topObject.getJSONArray("row");
+
+                    int rowsCount = rows.length();
+                    for (int i = 0; i < rowsCount; i++) {
+                        JSONObject result = (JSONObject) rows.get(i);
+                        String system = result.getString("SYSTEMNM");
+                        String category = result.getString("CATEGORY4");
+
+                        sb.append(system + " " + category + "\n");
+                    }
+
+                    tv.setText(sb.toString());
+                    progress.dismiss();
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
             }
         }.execute();
     }
