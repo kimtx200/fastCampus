@@ -86,6 +86,7 @@ class CustomView extends View {
         // paint = 물감
 
         // left, top, right, botton 을 순서대로 집어 넣어 준다.
+
         // left 와 right 는 x좌표, top 과 bottom 은 y좌표를 나타낸다.
 //        paint.setColor(Color.MAGENTA);
 //        canvas.drawRect(0,0,300,300,paint);

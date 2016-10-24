@@ -22,7 +22,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static SQLiteDatabase openDatabase(Context context){
         if(dbHelper == null)
             dbHelper = new DBHelper(context);
-        
+
         return dbHelper.getWritableDatabase();
     }
 

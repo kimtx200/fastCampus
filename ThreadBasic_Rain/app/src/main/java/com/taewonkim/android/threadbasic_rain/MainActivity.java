@@ -42,7 +42,9 @@ public class MainActivity extends AppCompatActivity {
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                running = true;
+                MakeDrop makeDrop = new MakeDrop(cv);
+                new Thread(makeDrop).start();
             }
         });
 
@@ -68,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
             super.onDraw(canvas);
 
             for (RainDrop r : rainDrops) {
-                canvas.drawCircle(r.x,r.y,r.size,null);
+                canvas.drawCircle(r.x, r.y, r.size, paint);
             }
         }
 
@@ -102,14 +104,16 @@ public class MainActivity extends AppCompatActivity {
             size = rnd.nextInt(size_limit);
 
             speed_limit = device_height / 200;
-            speed = rnd.nextInt(speed_limit);
+            speed = rnd.nextInt(speed_limit)+1;
         }
 
         @Override
         public void run() {
             // 화면 밖으로 벗어나면 해당 빗방울 Thread 는 종료 된다.
             while (y <= device_height) {
-                y = y + speed;
+
+                if (running == true)
+                    y = y + speed;
 
                 try {
                     Thread.sleep(100);
@@ -146,6 +150,38 @@ public class MainActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
+        }
+    }
+
+    class MakeDrop extends Thread {
+
+        CustomView cv;
+
+        public MakeDrop(CustomView cv) {
+            this.cv = cv;
+
+        }
+
+        public void run() {
+
+            // 화면을 그리는 Thread 생성 후 동작
+            CallDraw callDraw = new CallDraw(cv, 10);
+            new Thread(callDraw).start();
+
+            while (running) {
+                // 빗방울 Thread 생성 후 동작
+                RainDrop rainDrop = new RainDrop();
+                cv.add(rainDrop);
+                new Thread(rainDrop).start();
+
+                // 0.5 초에 하나씩 빗방울을 생성 해 준다.
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
         }
     }
 }

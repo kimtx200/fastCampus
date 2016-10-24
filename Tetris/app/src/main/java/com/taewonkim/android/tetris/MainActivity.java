@@ -5,17 +5,19 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.FrameLayout;
 
+import static android.R.attr.start;
+
 public class MainActivity extends AppCompatActivity {
 
     FrameLayout ground;
     FrameLayout nextBlock;
     FrameLayout nextBlockList;
 
-    Button up;
+    Button rotate;
     Button left;
     Button right;
     Button down;
-    Button rotate;
+    Button start;
 
     int stageLevel = 1;
 
@@ -31,24 +33,20 @@ public class MainActivity extends AppCompatActivity {
 
         ground = (FrameLayout) findViewById(R.id.ground);
 
-        up = (Button) findViewById(R.id.btnUp);
+        rotate = (Button) findViewById(R.id.btnRotate);
         down = (Button) findViewById(R.id.btnDown);
         left = (Button) findViewById(R.id.btnLeft);
         right = (Button) findViewById(R.id.btnRight);
-        rotate = (Button) findViewById(R.id.btnRotate);
+        start = (Button) findViewById(R.id.btnStart);
 
+        setStage(stageLevel);
         mainStage = new MainStage(this, stage, block);
-        setStage(1);
+        ground.addView(mainStage);
 
     }
 
     public void setStage(int stageLevel) {
         stage.setStageMap(stageLevel);
-        stage.getCurrentStage();
-
-        block.setBlock();
-        block.getCurrentBlock();
     }
-
 }
 

@@ -7,8 +7,8 @@ public class Stage {
 
     int[][] stageMap;
 
-    public void setStageMap(int stageLevel){
-        switch(stageLevel){
+    public void setStageMap(int stageLevel) {
+        switch (stageLevel) {
             case 1:
                 stageMap = stageOne;
                 break;
@@ -16,18 +16,18 @@ public class Stage {
 
     }
 
-    public int[][] getCurrentStage(){
+    public int[][] getCurrentStage() {
         return stageMap;
     }
 
     int[][] previewMap = {
 
-            {9,9,9,9,9,9},
-            {9,0,0,0,0,9},
-            {9,0,0,0,0,9},
-            {9,0,0,0,0,9},
-            {9,0,0,0,0,9},
-            {9,9,9,9,9,9}
+            {9, 9, 9, 9, 9, 9},
+            {9, 0, 0, 0, 0, 9},
+            {9, 0, 0, 0, 0, 9},
+            {9, 0, 0, 0, 0, 9},
+            {9, 0, 0, 0, 0, 9},
+            {9, 9, 9, 9, 9, 9}
     };
 
     int[][] stageOne = {

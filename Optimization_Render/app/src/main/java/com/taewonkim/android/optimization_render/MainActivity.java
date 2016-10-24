@@ -11,9 +11,29 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         Debug.startMethodTracing("TraceResult");
-        print100000();
+
+        Thread thread01 = new Thread(){
+
+            @Override
+            public void run() {
+                super.run();
+                print1000("Thread 01");
+            }
+        };
+        thread01.start();
+
+        Thread thread02 = new Thread(){
+
+            @Override
+            public void run() {
+                super.run();
+                print1000("Thread 02");
+            }
+        };
+        thread02.start();
+
+        print1000("main");
     }
 
     @Override
@@ -22,8 +42,8 @@ public class MainActivity extends AppCompatActivity {
         Debug.stopMethodTracing();
     }
 
-    public void print100000(){
-        for(int i=0; i<100000; i++)
-            Log.i("Performance Test",">>>>>>>>>>>>>>>>>>>>> i = "+i);
+    public void print1000(String tag){
+        for(int i=0; i<1000; i++)
+            Log.i("Performance Test",">>>>>>>>>>>>>>>>>>>>> "+ tag +" " + i);
     }
 }
