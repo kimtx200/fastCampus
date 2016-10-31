@@ -1,0 +1,73 @@
+{
+  "project_info": {
+    "project_number": "617100602157",
+    "firebase_url": "https://tedspark-36140.firebaseio.com",
+    "project_id": "tedspark-36140",
+    "storage_bucket": "tedspark-36140.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:617100602157:android:5808a32f88348b08",
+        "android_client_info": {
+          "package_name": "com.taewonkim.android.firebase_database"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "617100602157-242p8efg909v84943nn75n9mtrnqv3so.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKh5yfLWIUB5lWER_wtwtV0FCCMC6lqtE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:617100602157:android:254f66f0481568da",
+        "android_client_info": {
+          "package_name": "android.study.com.firebase_message"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "617100602157-242p8efg909v84943nn75n9mtrnqv3so.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKh5yfLWIUB5lWER_wtwtV0FCCMC6lqtE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
