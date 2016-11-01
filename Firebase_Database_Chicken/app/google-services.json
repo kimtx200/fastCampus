@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "579037948361",
+    "firebase_url": "https://tedchicken-c2eee.firebaseio.com",
+    "project_id": "tedchicken-c2eee",
+    "storage_bucket": "tedchicken-c2eee.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:579037948361:android:f691c94659d20551",
+        "android_client_info": {
+          "package_name": "android.study.com.firebase_database_chicken"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "579037948361-711jnnhjgluhij5f9ms38kvn8r0achms.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCWca-90DIrdEbVhfWyQKdKmJT8_Xh_keI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
